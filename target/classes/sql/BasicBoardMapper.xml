@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.prac.boardprac.basicboard">
+	<select id="selectBoardList" resultType="com.prac.boardprac.basicboard.BasicBoardVO">
+		SELECT BRDNO, BRDTITLE, BRDWRITER, TO_CHAR(BRDDATE, 'yyyy-mm-dd') BRDDATE
+		FROM TBL_BOARD
+		ORDER BY BRDNO DESC
+	</select>
+	
+	<insert id="insertBoard" parameterType="com.prac.boardprac.basicboard.BasicBoardVO">
+		INSERT INTO TBL_BOARD(BRDNO, BRDTITLE, BRDWRITER, BRDMEMO, BRDDATE)
+		VALUES (BRDNO_SEQ.NEXTVAL, #{brdtitle}, #{brdwriter}, #{brdmemo}, SYSDATE)
+	</insert>
+	
+	<select id="selectBoard" parameterType="String" resultType="com.prac.boardprac.basicboard.BasicBoardVO">
+		SELECT BRDNO, BRDTITLE, BRDWRITER, BRDMEMO, BRDDATE
+		FROM TBL_BOARD
+		WHERE BRDNO=#{brdno}
+	</select>
+	
+	<delete id="deleteBoard" parameterType="String">
+		DELETE FROM TBL_BOARD
+		WHERE BRDNO=#{brdno}
+	</delete>
+	
+	<update id="updateBoard" parameterType="com.prac.boardprac.basicboard.BasicBoardVO">
+		UPDATE TBL_BOARD
+		SET BRDTITLE=#{brdtitle},
+			BRDWRITER=#{brdwriter},
+			BRDMEMO=#{brdmemo}
+		WHERE BRDNO=#{brdno}
+	</update>
+</mapper>
